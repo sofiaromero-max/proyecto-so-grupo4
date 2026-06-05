@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arquitecto Cloud — Grupo 4 | Sistemas Operativos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0e1a;
+      --surface: #111827;
+      --surface2: #1a2236;
+      --accent: #f97316;
+      --accent2: #38bdf8;
+      --accent3: #a78bfa;
+      --text: #e2e8f0;
+      --muted: #64748b;
+      --border: #1e293b;
+      --mono: 'Space Mono', monospace;
+      --sans: 'Syne', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 2.5rem;
+      background: rgba(10,14,26,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--mono); font-size: .85rem; color: var(--accent);
+      letter-spacing: .05em;
+    }
+    .nav-logo span { color: var(--accent2); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-family: var(--mono); font-size: .8rem; color: var(--muted);
+      text-decoration: none; letter-spacing: .1em; text-transform: uppercase;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    #home {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 8rem 2.5rem 4rem;
+      position: relative; overflow: hidden;
+    }
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(249,115,22,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(249,115,22,.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 40%, transparent 100%);
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-family: var(--mono); font-size: .75rem; color: var(--accent);
+      border: 1px solid rgba(249,115,22,.3); border-radius: 2rem;
+      padding: .3rem .9rem; margin-bottom: 2rem; width: fit-content;
+      animation: fadeUp .6s ease both;
+    }
+    .hero-badge::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent); animation: pulse 1.5s ease infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    h1 {
+      font-family: var(--sans); font-size: clamp(2.8rem, 7vw, 6rem);
+      font-weight: 800; line-height: 1.05; letter-spacing: -.02em;
+      animation: fadeUp .7s .1s ease both;
+    }
+    h1 .accent { color: var(--accent); }
+    h1 .accent2 { color: var(--accent2); }
+
+    .hero-sub {
+      margin-top: 1.5rem; max-width: 560px;
+      font-size: 1.1rem; color: var(--muted); line-height: 1.7;
+      animation: fadeUp .7s .2s ease both;
+    }
+    .hero-tags {
+      display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2rem;
+      animation: fadeUp .7s .3s ease both;
+    }
+    .tag {
+      font-family: var(--mono); font-size: .72rem;
+      padding: .35rem .8rem; border-radius: 4px;
+      border: 1px solid var(--border); color: var(--muted);
+      background: var(--surface);
+    }
+    .tag.blue { color: var(--accent2); border-color: rgba(56,189,248,.3); background: rgba(56,189,248,.05); }
+    .tag.orange { color: var(--accent); border-color: rgba(249,115,22,.3); background: rgba(249,115,22,.05); }
+    .tag.purple { color: var(--accent3); border-color: rgba(167,139,250,.3); background: rgba(167,139,250,.05); }
+
+    .hero-stats {
+      display: flex; gap: 3rem; margin-top: 4rem;
+      animation: fadeUp .7s .4s ease both;
+    }
+    .stat-num {
+      font-family: var(--mono); font-size: 2rem; font-weight: 700; color: var(--accent);
+    }
+    .stat-label { font-size: .8rem; color: var(--muted); margin-top: .2rem; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 6rem 2.5rem; max-width: 1200px; margin: 0 auto; }
+
+    .section-label {
+      font-family: var(--mono); font-size: .72rem; color: var(--accent);
+      letter-spacing: .2em; text-transform: uppercase; margin-bottom: 1rem;
+    }
+    h2 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800;
+      letter-spacing: -.02em; line-height: 1.1;
+    }
+    .divider {
+      width: 48px; height: 3px; background: var(--accent);
+      border-radius: 2px; margin: 1.5rem 0 3rem;
+    }
+
+    /* ── ARQUITECTURA VISUAL ── */
+    .arch-diagram {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 2rem; margin-top: 3rem;
+      position: relative; overflow: hidden;
+    }
+    .arch-diagram::before {
+      content: 'ARQUITECTURA DE INFRAESTRUCTURA';
+      font-family: var(--mono); font-size: .65rem; color: var(--muted);
+      letter-spacing: .2em; display: block; margin-bottom: 1.5rem;
+    }
+    .arch-row {
+      display: flex; gap: 1rem; align-items: center;
+      flex-wrap: wrap; margin-bottom: 1rem;
+    }
+    .arch-box {
+      flex: 1; min-width: 150px; padding: 1rem;
+      border-radius: 8px; border: 1px solid var(--border);
+      background: var(--surface2); position: relative;
+    }
+    .arch-box .box-label {
+      font-family: var(--mono); font-size: .65rem; color: var(--muted);
+      text-transform: uppercase; letter-spacing: .1em; margin-bottom: .4rem;
+    }
+    .arch-box .box-name { font-weight: 700; font-size: .95rem; }
+    .arch-box .box-detail { font-family: var(--mono); font-size: .72rem; color: var(--muted); margin-top: .2rem; }
+    .arch-box.blue { border-color: rgba(56,189,248,.4); background: rgba(56,189,248,.05); }
+    .arch-box.orange { border-color: rgba(249,115,22,.4); background: rgba(249,115,22,.05); }
+    .arch-box.purple { border-color: rgba(167,139,250,.4); background: rgba(167,139,250,.05); }
+    .arch-box.green { border-color: rgba(52,211,153,.4); background: rgba(52,211,153,.05); }
+    .arch-arrow {
+      font-size: 1.2rem; color: var(--muted); flex-shrink: 0;
+    }
+
+    /* ── TEAM ── */
+    .team-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.5rem; margin-top: 1rem;
+    }
+    .team-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.8rem; position: relative;
+      overflow: hidden; transition: border-color .2s, transform .2s;
+    }
+    .team-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .team-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+    }
+    .team-avatar {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 1.2rem; margin-bottom: 1rem; color: #000;
+    }
+    .team-name { font-weight: 700; font-size: 1rem; }
+    .team-role { font-family: var(--mono); font-size: .72rem; color: var(--accent); margin-top: .3rem; }
+    .team-id { font-family: var(--mono); font-size: .68rem; color: var(--muted); margin-top: .5rem; }
+
+    /* ── COMPONENTS ── */
+    .components-list { display: flex; flex-direction: column; gap: 1.5rem; }
+    .comp-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden;
+      transition: border-color .2s;
+    }
+    .comp-card:hover { border-color: var(--accent2); }
+    .comp-header {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1.5rem 2rem; cursor: pointer;
+      user-select: none;
+    }
+    .comp-number {
+      font-family: var(--mono); font-size: .75rem; color: var(--accent);
+      border: 1px solid rgba(249,115,22,.4); border-radius: 4px;
+      padding: .2rem .55rem; flex-shrink: 0;
+    }
+    .comp-title { font-weight: 700; font-size: 1.05rem; flex: 1; }
+    .comp-pct {
+      font-family: var(--mono); font-size: .8rem;
+      color: var(--muted);
+    }
+    .comp-chevron { color: var(--muted); transition: transform .3s; font-size: .9rem; }
+    .comp-card.open .comp-chevron { transform: rotate(180deg); }
+    .comp-body {
+      display: none; padding: 0 2rem 2rem;
+      border-top: 1px solid var(--border);
+      padding-top: 1.5rem;
+    }
+    .comp-card.open .comp-body { display: block; }
+
+    .task-list { list-style: none; display: flex; flex-direction: column; gap: .75rem; }
+    .task-list li {
+      display: flex; align-items: flex-start; gap: .75rem;
+      font-size: .92rem; color: var(--muted); line-height: 1.5;
+    }
+    .task-list li::before {
+      content: '▸'; color: var(--accent); flex-shrink: 0; margin-top: .05rem;
+    }
+
+    .code-block {
+      background: #0d1117; border: 1px solid var(--border); border-radius: 8px;
+      padding: 1.2rem 1.5rem; margin-top: 1.2rem;
+      font-family: var(--mono); font-size: .78rem; line-height: 1.8;
+      color: #e2e8f0; overflow-x: auto;
+    }
+    .code-block .comment { color: #64748b; }
+    .code-block .keyword { color: var(--accent2); }
+    .code-block .string { color: #a3e635; }
+    .code-block .cmd { color: var(--accent); }
+
+    .evidence-note {
+      margin-top: 1.2rem;
+      font-family: var(--mono); font-size: .72rem;
+      color: var(--accent2); border-left: 2px solid var(--accent2);
+      padding-left: .75rem; line-height: 1.6;
+    }
+
+    /* ── CONCLUSIONS ── */
+    .conclusions-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .conclusion-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.8rem;
+      transition: border-color .2s, transform .2s;
+    }
+    .conclusion-card:hover { border-color: var(--accent3); transform: translateY(-3px); }
+    .conclusion-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+    .conclusion-title { font-weight: 700; margin-bottom: .6rem; }
+    .conclusion-text { font-size: .9rem; color: var(--muted); line-height: 1.7; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem; text-align: center;
+      font-family: var(--mono); font-size: .75rem; color: var(--muted);
+    }
+    footer span { color: var(--accent); }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">GRUPO<span>04</span> / ARQUITECTO_CLOUD</div>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#equipo">Equipo</a></li>
+    <li><a href="#componentes">Componentes</a></li>
+    <li><a href="#conclusiones">Conclusiones</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="home" style="max-width:100%;padding-top:8rem;">
+  <div class="hero-grid"></div>
+  <div style="max-width:1200px;margin:0 auto;position:relative;">
+    <div class="hero-badge">Sistemas Operativos 750001C — Semestre 1, 2026</div>
+    <h1>
+      Proyecto Final<br>
+      <span class="accent">Arquitecto</span> <span class="accent2">Cloud</span>
+    </h1>
+    <p class="hero-sub">
+      Infraestructura tecnológica integrada con máquinas virtuales Linux, contenedores Docker y orquestación con Kubernetes Minikube — Grupo 4.
+    </p>
+    <div class="hero-tags">
+      <span class="tag orange">Kubuntu 24.04 LTS</span>
+      <span class="tag blue">Ubuntu 24.04 Server</span>
+      <span class="tag purple">ubuntu:24.04</span>
+      <span class="tag">VirtualBox</span>
+      <span class="tag blue">Docker Engine</span>
+      <span class="tag orange">Kubernetes / Minikube</span>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-num">5</div><div class="stat-label">Componentes</div></div>
+      <div><div class="stat-num">25%</div><div class="stat-label">Nota final</div></div>
+      <div><div class="stat-num">2</div><div class="stat-label">VMs Linux</div></div>
+      <div><div class="stat-num">3</div><div class="stat-label">Réplicas K8s</div></div>
+    </div>
+
+    <!-- Architecture diagram -->
+    <div class="arch-diagram">
+      <div class="arch-row">
+        <div class="arch-box blue">
+          <div class="box-label">VM 1 — Gráfica</div>
+          <div class="box-name">Kubuntu 24.04 LTS</div>
+          <div class="box-detail">VirtualBox · 3 particiones</div>
+        </div>
+        <div class="arch-arrow">⟷</div>
+        <div class="arch-box orange">
+          <div class="box-label">VM 2 — Consola</div>
+          <div class="box-name">Ubuntu 24.04 Server</div>
+          <div class="box-detail">Sin GUI · SSH habilitado</div>
+        </div>
+      </div>
+      <div class="arch-row">
+        <div class="arch-box purple">
+          <div class="box-label">Docker — Frontend</div>
+          <div class="box-name">Nginx + HTML</div>
+          <div class="box-detail">ubuntu:24.04 · puerto 80</div>
+        </div>
+        <div class="arch-arrow">+</div>
+        <div class="arch-box purple">
+          <div class="box-label">Docker — Backend</div>
+          <div class="box-name">Python HTTP</div>
+          <div class="box-detail">ubuntu:24.04 · puerto 5000</div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-box green">
+          <div class="box-label">Kubernetes</div>
+          <div class="box-name">Minikube · Nginx</div>
+          <div class="box-detail">2–3 réplicas · NodePort</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EQUIPO -->
+<section id="equipo">
+  <div class="section-label">// 01 — integrantes</div>
+  <h2>Nuestro Equipo</h2>
+  <div class="divider"></div>
+  <div class="team-grid">
+    <!-- ✏️ Reemplaza con los nombres e IDs reales del grupo -->
+    <div class="team-card">
+      <div class="team-avatar">A</div>
+      <div class="team-name">Nombre Integrante 1</div>
+      <div class="team-role">Virtualización</div>
+      <div class="team-id">Cód. 12345678</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">B</div>
+      <div class="team-name">Nombre Integrante 2</div>
+      <div class="team-role">Docker / Contenedores</div>
+      <div class="team-id">Cód. 12345679</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">C</div>
+      <div class="team-name">Nombre Integrante 3</div>
+      <div class="team-role">Kubernetes</div>
+      <div class="team-id">Cód. 12345680</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">D</div>
+      <div class="team-name">Nombre Integrante 4</div>
+      <div class="team-role">Sitio Web & Docs</div>
+      <div class="team-id">Cód. 12345681</div>
+    </div>
+  </div>
+  <p style="margin-top:2rem;font-family:var(--mono);font-size:.78rem;color:var(--muted);">
+    Universidad del Valle · Ing. de Sistemas · Mg. José Alexander Castañeda Muñoz
+  </p>
+</section>
+
+<!-- COMPONENTES -->
+<section id="componentes">
+  <div class="section-label">// 02 — implementación</div>
+  <h2>Componentes del Proyecto</h2>
+  <div class="divider"></div>
+
+  <div class="components-list">
+
+    <!-- C1: Virtualización -->
+    <div class="comp-card open">
+      <div class="comp-header" onclick="toggle(this)">
+        <span class="comp-number">C1</span>
+        <span class="comp-title">Virtualización con Linux</span>
+        <span class="comp-pct">30%</span>
+        <span class="comp-chevron">▼</span>
+      </div>
+      <div class="comp-body">
+        <ul class="task-list">
+          <li>Instalación de 2 VMs en VirtualBox: <strong>Kubuntu 24.04 LTS</strong> (gráfica) y <strong>Ubuntu 24.04 Server</strong> (consola)</li>
+          <li>Particionamiento manual con 3 particiones: <code>/</code>, <code>swap</code>, <code>/home</code> en ambas VMs</li>
+          <li>Red interna configurada entre las dos VMs para comunicación directa</li>
+          <li>SSH activado y verificado — acceso desde la VM gráfica hacia la VM consola</li>
+        </ul>
+        <div class="code-block">
+<span class="comment"># Verificar SSH desde Kubuntu → Ubuntu Server</span>
+<span class="cmd">ssh</span> usuario@192.168.56.10
+
+<span class="comment"># Ver particiones en la VM de consola</span>
+<span class="cmd">lsblk</span>
+<span class="cmd">df -h</span>
+        </div>
+        <div class="evidence-note">
+          📸 Evidencias: capturas de instalación · particionamiento · configuración de red · prueba SSH funcional
+        </div>
+      </div>
+    </div>
+
+    <!-- C2: Docker -->
+    <div class="comp-card">
+      <div class="comp-header" onclick="toggle(this)">
+        <span class="comp-number">C2</span>
+        <span class="comp-title">Contenedores Docker</span>
+        <span class="comp-pct">30%</span>
+        <span class="comp-chevron">▼</span>
+      </div>
+      <div class="comp-body">
+        <ul class="task-list">
+          <li>Instalación de <strong>Docker Engine</strong> (no Docker Desktop) en Kubuntu 24.04 LTS</li>
+          <li>Dockerfile personalizado para <strong>Frontend</strong>: Nginx sirviendo HTML estático — basado en <code>ubuntu:24.04</code></li>
+          <li>Dockerfile personalizado para <strong>Backend</strong>: servidor HTTP Python en puerto 5000</li>
+          <li>Orquestación con <code>docker-compose.yml</code> — ambos servicios levantados juntos</li>
+          <li>Volúmenes persistentes configurados para los archivos HTML del frontend</li>
+        </ul>
+        <div class="code-block">
+<span class="comment"># Dockerfile — Frontend (Nginx)</span>
+<span class="keyword">FROM</span> <span class="string">ubuntu:24.04</span>
+<span class="keyword">RUN</span> apt-get update && apt-get install -y nginx
+<span class="keyword">COPY</span> index.html /var/www/html/
+<span class="keyword">EXPOSE</span> 80
+<span class="keyword">CMD</span> ["nginx", "-g", "daemon off;"]
+
+<span class="comment"># Levantar servicios</span>
+<span class="cmd">docker compose up -d</span>
+<span class="cmd">docker compose ps</span>
+        </div>
+        <div class="evidence-note">
+          📸 Evidencias: Dockerfiles · docker-compose.yml · capturas de navegador accediendo al frontend (puerto 80) y backend (puerto 5000)
+        </div>
+      </div>
+    </div>
+
+    <!-- C3: Kubernetes -->
+    <div class="comp-card">
+      <div class="comp-header" onclick="toggle(this)">
+        <span class="comp-number">C3</span>
+        <span class="comp-title">Orquestación con Kubernetes</span>
+        <span class="comp-pct">20%</span>
+        <span class="comp-chevron">▼</span>
+      </div>
+      <div class="comp-body">
+        <ul class="task-list">
+          <li>Instalación de <strong>Minikube</strong> en Kubuntu 24.04 LTS</li>
+          <li>Manifiestos YAML creados: <code>Deployment</code> y <code>Service</code></li>
+          <li>Imagen oficial de Nginx desplegada con <strong>2 réplicas</strong> iniciales</li>
+          <li>Servicio expuesto con tipo <strong>NodePort</strong> para acceso externo desde el navegador</li>
+          <li>Escalado manual demostrado: de 2 a <strong>3 réplicas</strong></li>
+        </ul>
+        <div class="code-block">
+<span class="comment"># Desplegar y verificar</span>
+<span class="cmd">kubectl apply -f</span> deployment.yaml
+<span class="cmd">kubectl get pods</span>
+<span class="cmd">kubectl get svc</span>
+
+<span class="comment"># Escalar a 3 réplicas</span>
+<span class="cmd">kubectl scale deployment</span> nginx-deployment <span class="keyword">--replicas=</span>3
+
+<span class="comment"># Acceder al servicio</span>
+<span class="cmd">minikube service</span> nginx-service
+        </div>
+        <div class="evidence-note">
+          📸 Evidencias: kubectl get pods · kubectl get svc · acceso desde navegador · demostración de escalado
+        </div>
+      </div>
+    </div>
+
+    <!-- C4: Sitio Web -->
+    <div class="comp-card">
+      <div class="comp-header" onclick="toggle(this)">
+        <span class="comp-number">C4</span>
+        <span class="comp-title">Sitio Web de Documentación</span>
+        <span class="comp-pct">10%</span>
+        <span class="comp-chevron">▼</span>
+      </div>
+      <div class="comp-body">
+        <ul class="task-list">
+          <li>Sitio publicado en <strong>GitHub Pages</strong> — accesible públicamente</li>
+          <li>Secciones cubiertas: <strong>Home, Equipo, Componentes, Conclusiones</strong></li>
+          <li>Diagramas de arquitectura, capturas de evidencias y comandos principales incluidos</li>
+          <li>Video demostrativo en <strong>YouTube</strong> (máximo 10 minutos)</li>
+          <li>Repositorio GitHub con commits registrados de todos los integrantes</li>
+        </ul>
+        <div class="evidence-note">
+          🔗 URL del sitio · 🎬 Video YouTube · 💻 Repositorio GitHub
+        </div>
+      </div>
+    </div>
+
+    <!-- C5: Sustentación -->
+    <div class="comp-card">
+      <div class="comp-header" onclick="toggle(this)">
+        <span class="comp-number">C5</span>
+        <span class="comp-title">Sustentación y Presentación</span>
+        <span class="comp-pct">10%</span>
+        <span class="comp-chevron">▼</span>
+      </div>
+      <div class="comp-body">
+        <ul class="task-list">
+          <li>Presentación formal grupal de 15–20 minutos</li>
+          <li>Participación de <strong>todos los integrantes</strong> — cada uno expone al menos 1 componente</li>
+          <li>Diagramas de arquitectura y capturas de evidencias en las slides</li>
+          <li>Defensa técnica: responder preguntas del docente sobre decisiones y conceptos</li>
+        </ul>
+        <div style="margin-top:1.2rem;display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem;">
+          <div style="background:var(--surface2);border-radius:8px;padding:1rem;border:1px solid var(--border);">
+            <div style="font-family:var(--mono);font-size:.65rem;color:var(--accent);margin-bottom:.3rem;">DOMINIO TÉCNICO</div>
+            <div style="font-weight:700;">40%</div>
+          </div>
+          <div style="background:var(--surface2);border-radius:8px;padding:1rem;border:1px solid var(--border);">
+            <div style="font-family:var(--mono);font-size:.65rem;color:var(--accent2);margin-bottom:.3rem;">CALIDAD PRESENTACIÓN</div>
+            <div style="font-weight:700;">30%</div>
+          </div>
+          <div style="background:var(--surface2);border-radius:8px;padding:1rem;border:1px solid var(--border);">
+            <div style="font-family:var(--mono);font-size:.65rem;color:var(--accent3);margin-bottom:.3rem;">PARTICIPACIÓN EQUITATIVA</div>
+            <div style="font-weight:700;">20%</div>
+          </div>
+          <div style="background:var(--surface2);border-radius:8px;padding:1rem;border:1px solid var(--border);">
+            <div style="font-family:var(--mono);font-size:.65rem;color:#34d399;margin-bottom:.3rem;">RESPUESTAS A PREGUNTAS</div>
+            <div style="font-weight:700;">10%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONCLUSIONES -->
+<section id="conclusiones">
+  <div class="section-label">// 03 — reflexiones</div>
+  <h2>Conclusiones</h2>
+  <div class="divider"></div>
+  <div class="conclusions-grid">
+    <div class="conclusion-card">
+      <div class="conclusion-icon">🖥️</div>
+      <div class="conclusion-title">Virtualización como base</div>
+      <div class="conclusion-text">
+        La instalación y configuración de VMs con Linux nos permitió comprender el ciclo completo de despliegue de sistemas operativos, desde el particionamiento manual hasta la comunicación en red entre máquinas. <!-- ✏️ Personaliza esta conclusión -->
+      </div>
+    </div>
+    <div class="conclusion-card">
+      <div class="conclusion-icon">🐳</div>
+      <div class="conclusion-title">Contenedores y portabilidad</div>
+      <div class="conclusion-text">
+        Docker demostró cómo los contenedores aíslan aplicaciones y sus dependencias, facilitando el despliegue reproducible de servicios sin importar el entorno subyacente. <!-- ✏️ Personaliza -->
+      </div>
+    </div>
+    <div class="conclusion-card">
+      <div class="conclusion-icon">⚙️</div>
+      <div class="conclusion-title">Orquestación con Kubernetes</div>
+      <div class="conclusion-text">
+        Minikube nos introdujo a la orquestación real de contenedores: gestión de réplicas, auto-recuperación y exposición de servicios — fundamentos de cualquier sistema cloud moderno. <!-- ✏️ Personaliza -->
+      </div>
+    </div>
+    <div class="conclusion-card">
+      <div class="conclusion-icon">🤝</div>
+      <div class="conclusion-title">Trabajo colaborativo</div>
+      <div class="conclusion-text">
+        El uso de Git y GitHub Pages como plataforma central permitió coordinar el trabajo del equipo, mantener historial de cambios y publicar evidencias técnicas de forma accesible. <!-- ✏️ Personaliza -->
+      </div>
+    </div>
+    <div class="conclusion-card">
+      <div class="conclusion-icon">📐</div>
+      <div class="conclusion-title">Arquitectura integrada</div>
+      <div class="conclusion-text">
+        Integrar virtualización, contenedores y orquestación en un único proyecto nos dio visión de cómo se construyen infraestructuras cloud reales, desde el servidor físico hasta el servicio expuesto. <!-- ✏️ Personaliza -->
+      </div>
+    </div>
+    <div class="conclusion-card">
+      <div class="conclusion-icon">🚀</div>
+      <div class="conclusion-title">Proyección profesional</div>
+      <div class="conclusion-text">
+        Las tecnologías abordadas — Linux, Docker y Kubernetes — son estándar en la industria tecnológica, por lo que este proyecto representa un primer paso sólido hacia roles DevOps y Cloud. <!-- ✏️ Personaliza -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>Grupo 4 · <span>Sistemas Operativos 750001C</span> · Universidad del Valle · Semestre 1, 2026</p>
+  <p style="margin-top:.5rem;">Mg. José Alexander Castañeda Muñoz &mdash; castaneda.jose@correounivalle.edu.co</p>
+</footer>
+
+<script>
+  function toggle(header) {
+    const card = header.closest('.comp-card');
+    card.classList.toggle('open');
+  }
+</script>
+</body>
+</html>
